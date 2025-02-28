@@ -1,66 +1,96 @@
 <!DOCTYPE html>
-<html lang="en-US" >
-<!--  Note that the lang and dir attributes are now set during the
-      processing of the template and not hard-coded above.
--->
+<html lang="en">
 <head>
-<meta charset='utf-8'>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<link rel="icon" type="x-image/icon" href="/webwork2_files/images/favicon.ico"/>
-
-<!-- CSS Loads -->
-<link rel="stylesheet" href="/webwork2_files/themes/math4/bootstrap.24363a54.min.css"/>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.0.0/css/all.min.css"/>
-<link rel="stylesheet" href="/webwork2_files/themes/math4/math4.fc51f57d.min.css"/>
-
-<link rel="stylesheet" href="/webwork2_files/themes/math4/achievements.ba3f1b1b.min.css"/>
-
-
-	<link href="https://cdn.jsdelivr.net/npm/jquery-ui-dist@1.13.1/jquery-ui.min.css" rel="stylesheet" /><link href="/pg_files/js/apps/Problem/problem.7e39fc4c.min.css" rel="stylesheet" /><link href="/pg_files/js/apps/Knowls/knowl.6257981d.min.css" rel="stylesheet" /><link href="/pg_files/js/apps/ImageView/imageview.867ecd5a.min.css" rel="stylesheet" /><link href="/webwork2_files/node_modules/mathquill/dist/mathquill.css" rel="stylesheet" /><link href="/pg_files/js/apps/MathQuill/mqeditor.fe0cc1b0.min.css" rel="stylesheet" />
-
-
-<link rel="stylesheet" href="/webwork2_files/themes/math4/math4-overrides.e3b0c442.min.css"/>
-
-
-
-<title>WeBWorK : phys211 : WW08 : 1</title>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree and Wire Problem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .question {
+            margin-bottom: 20px;
+        }
+        input {
+            margin: 5px 0;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
-
 <body>
-
-	  <p>
+    <div class="question">
+        <h1>Tree and Wire Problem</h1>
+        <p>
             A tree is supported by a wire anchored in the ground <span id="aValue"></span> feet from
             its base. The wire is <span id="bValue"></span> feet longer than the height that it reaches
             on the tree. How long is the wire?
-	  </p>
-	<p>
-            A cannon is fired at a ship with the initial velocity <span id="aValue"></span> m/s. The cannon is angled 
-            at <span id="bValue"></span>° above the horizontal. 
         </p>
         <p>
             a) Use the Pythagorean theorem to write a polynomial equation to
             solve to answer the question. Use the variable \(x\) to represent
             <b>the length of the wire</b>.
-                How far away is the ship from the cannon?
         </p>
         <p>
             Answer: <input type="text" id="answerA" placeholder="Enter your equation here" size="30">
         </p>
         <p>
-         <p>
             b) Solve the equation and give the length of the wire.
         </p>
         <p>
             Answer: <input type="text" id="answerB" placeholder="Enter your answer here" size="10"> feet
         </p>
-        </p>
         <button onclick="checkAnswers()">Check Answers</button>
     </div>
     <div class="result" id="result"></div>
 
+    <script>
+        // Setup
+        const a = Math.floor(Math.random() * (15 - 5 + 1)) + 5; // Random number between 5 and 15
+        const b = Math.floor(Math.random() * (5 - 3 + 1)) + 3; // Random number between 3 and 5
+
+        // Display random values for a and b
+        document.getElementById('aValue').textContent = a;
+        document.getElementById('bValue').textContent = b;
+
+        // Answers
+        const ansA = `${a}^2 + (x-${b})^2 = x^2`; // Equation for part a
+        const ansB = ((a ** 2) + (b ** 2)) / (2 * b); // Length of the wire for part b
+
+        // Check answers
+        function checkAnswers() {
+            const userAnsA = document.getElementById('answerA').value.trim();
+            const userAnsB = parseFloat(document.getElementById('answerB').value.trim());
+            const resultDiv = document.getElementById('result');
+
+            let resultText = '';
+
+            // Check part a
+            if (userAnsA === ansA) {
+                resultText += "Part a is correct!<br>";
+            } else {
+                resultText += `Part a is incorrect. The correct equation is: ${ansA}<br>`;
+            }
+
+            // Check part b
+            if (Math.abs(userAnsB - ansB) < 0.01) { // Allow for small floating-point differences
+                resultText += "Part b is correct!";
+            } else {
+                resultText += `Part b is incorrect. The correct length is: ${ansB.toFixed(2)} feet`;
+            }
+
+            // Display result
+            resultDiv.innerHTML = resultText;
+        }
+    </script>
 </body>
 </html>
